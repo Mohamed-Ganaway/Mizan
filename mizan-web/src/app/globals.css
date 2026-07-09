@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+/* ===== Semantic tokens — the single, deliberately-tuned Mizan palette =====
+   Warm bronze/gold (tradition, value) held in equilibrium against cool
+   graphite (precision, technology) on a warm ivory ground. This is a
+   committed brand look rather than a light/dark toggle. */
+:root {
+  --paper: #f8f4ec;
+  --paper-raised: #ffffff;
+  --paper-sunken: #efe9db;
+  --ink: #1c1712;
+  --ink-soft: #5c5445;
+  --ink-faint: #8a8171;
+  --line: rgba(28, 23, 18, 0.13);
+  --line-strong: rgba(28, 23, 18, 0.24);
+
+  --bronze-900: #3d2c18;
+  --bronze-700: #7a5226;
+  --bronze-600: #96682e;
+  --bronze-500: #b4834a;
+  --bronze-300: #d9aa6c;
+  --gold-200: #e7c179;
+
+  --graphite-800: #1b222a;
+  --graphite-600: #303b45;
+  --graphite-500: #46525d;
+  --graphite-400: #5b6873;
+  --graphite-200: #a8b3bb;
+
+  --shadow-color: 61 44 24;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-bronze-900: var(--bronze-900);
+  --color-bronze-700: var(--bronze-700);
+  --color-bronze-600: var(--bronze-600);
+  --color-bronze-500: var(--bronze-500);
+  --color-bronze-300: var(--bronze-300);
+  --color-gold-200: var(--gold-200);
+
+  --color-graphite-800: var(--graphite-800);
+  --color-graphite-600: var(--graphite-600);
+  --color-graphite-500: var(--graphite-500);
+  --color-graphite-400: var(--graphite-400);
+  --color-graphite-200: var(--graphite-200);
+
+  --font-display: var(--font-fraunces), serif;
+  --font-body: var(--font-archivo), sans-serif;
+  --font-mono: var(--font-plex-mono), monospace;
+  --font-display-ar: var(--font-noto-kufi), sans-serif;
+  --font-body-ar: var(--font-plex-arabic), sans-serif;
+
+  --shadow-mzn-sm: 0 1px 2px rgb(var(--shadow-color) / 0.08);
+  --shadow-mzn-md: 0 8px 24px -8px rgb(var(--shadow-color) / 0.22);
+  --shadow-mzn-lg: 0 24px 48px -16px rgb(var(--shadow-color) / 0.28);
+
+  --breakpoint-xs: 22rem;
+
+  --animate-marquee: marquee 34s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 40s linear infinite;
+
+  /* ===== Fluid type scale — bigger, more confident hierarchy ===== */
+  --text-eyebrow: clamp(0.7rem, 0.67rem + 0.15vw, 0.8125rem);
+  --text-eyebrow--line-height: 1.4;
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-body--line-height: 1.7;
+  --text-lede: clamp(1.15rem, 1.06rem + 0.45vw, 1.375rem);
+  --text-lede--line-height: 1.6;
+  --text-h3: clamp(1.375rem, 1.24rem + 0.7vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-h2: clamp(2.1rem, 1.6rem + 2.2vw, 3.5rem);
+  --text-h2--line-height: 1.08;
+  --text-h1: clamp(2.6rem, 1.9rem + 3vw, 4.25rem);
+  --text-h1--line-height: 1.04;
+  --text-hero: clamp(3rem, 2.1rem + 4.2vw, 5.75rem);
+  --text-hero--line-height: 1.28;
+  --text-stat: clamp(2rem, 1.7rem + 1.4vw, 3rem);
+  --text-stat--line-height: 1;
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *));
+
+/* Scroll smoothing is handled by Lenis in JS; native smooth-scroll would double up with it. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+
+:root[dir="rtl"] body {
+  font-family: var(--font-body-ar);
+}
+
+::selection {
+  background: var(--bronze-500);
+  color: var(--paper-raised);
+}
+
+/* Recurring text roles — one definition instead of repeating utility soup everywhere */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.lede {
+  font-size: var(--text-lede);
+  line-height: var(--text-lede--line-height);
+  color: var(--ink-soft);
+}
+
+/* Signature chamfer — a single cut corner, echoing the emblem's hard angles.
+   Used instead of border-radius across cards, buttons and image frames. */
+.chamfer {
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+}
+.chamfer-sm {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+:root[dir="rtl"] .chamfer {
+  clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px);
+}
+:root[dir="rtl"] .chamfer-sm {
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+}
+
+/* Meander motif — the emblem's Greek-key band, reused as a section divider */
+.meander-rule {
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='12' viewBox='0 0 64 12'%3E%3Cpath d='M0 2 H10 V10 H18 V2 H26 V10 H34 V2 H42 V10 H50 V2 H58 V10 H64' fill='none' stroke='%23B4834A' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 64px 12px;
+  opacity: 0.55;
+}
+
+/* Corner accent that sits inside a .chamfer container's cut corner */
+.card-accent {
+  position: relative;
+}
+.card-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, transparent 50%, var(--bronze-500) 50%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+:root[dir="rtl"] .card-accent::before {
+  background: linear-gradient(225deg, transparent 50%, var(--bronze-500) 50%);
+}
+
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* film grain — a faint animated noise layer for a tactile, premium ground */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--bronze-500);
+  outline-offset: 2px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Technical precision texture — a faint dot grid, used as a recurring
+   background motif on select sections (echoes drafting/blueprint precision). */
+.texture-dots {
+  background-image: radial-gradient(rgb(180 131 74 / 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.texture-dots-light {
+  background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Glass morphism — frosted panels for dark, image/video-backed sections */
+.glass-panel {
+  background: color-mix(in srgb, var(--paper) 8%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+.glass-panel-light {
+  background: color-mix(in srgb, var(--paper-raised) 55%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--line);
+}
+
+/* Floating nav capsules — brighter/denser than .glass-panel-light so they stay
+   legible over both the dark hero video and plain paper backgrounds alike. */
+.glass-nav {
+  background: color-mix(in srgb, var(--paper-raised) 80%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in srgb, white 50%, var(--line-strong));
+  box-shadow: var(--shadow-mzn-lg);
+}
+
+/* Soft floating gradient orbs — cheap, GPU-only ambient depth for dark sections */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Badge idle motion — one keyframe combining drift + breathe (two separate
+   `transform`-animating rules on the same element would just clobber each
+   other, since CSS animations don't compose like GSAP tweens do). */
+@keyframes badge-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.03);
+  }
+}
+.badge-float {
+  animation: badge-float 7s ease-in-out infinite;
+}

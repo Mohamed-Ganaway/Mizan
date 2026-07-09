@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "title": "Mizan Consulting & Training",
+    "description": "A Libyan house of expertise for financial, administrative and digital transformation consulting with Odoo."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "industries": "Industries",
+    "careers": "Careers",
+    "contact": "Contact",
+    "bookConsultation": "Book a consultation",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "footer": {
+    "tagline": "Balance, made digital.",
+    "servicesHeading": "Services",
+    "companyHeading": "Company",
+    "resourcesHeading": "Credentials",
+    "credentialPartner": "Odoo Silver Partner",
+    "credentialSince": "A Libyan house of expertise since 2004",
+    "credentialSectors": "10 sectors served",
+    "contactHeading": "Contact",
+    "rights": "All rights reserved.",
+    "address": "23 July Street, Borj Alsalam Building, 5th Floor, Office 4, Benghazi, Libya"
+  },
+  "common": {
+    "bookConsultation": "Book a consultation",
+    "exploreOdoo": "Explore Odoo solutions",
+    "sendMessage": "Send request",
+    "learnMore": "Learn more",
+    "viewAllServices": "View all services",
+    "backToServices": "Back to services",
+    "yearsShort": "years in practice",
+    "sectorsServed": "Sectors we serve"
+  },
+  "hero": {
+    "eyebrow": "A Libyan house of expertise since 2004",
+    "headline": "Balance, made digital.",
+    "sub": "Mizan pairs deep financial and administrative expertise with Odoo-led digital transformation — helping Libyan and regional institutions run their operations with clarity and confidence.",
+    "statYears": "Years in practice",
+    "statOdoo": "Odoo versions delivered",
+    "statSectors": "Industries served",
+    "scrollCue": "Scroll"
+  },
+  "thesis": {
+    "kicker": "Our philosophy",
+    "heading": "Two pillars, one balance",
+    "panA": "Financial expertise",
+    "panB": "Digital execution",
+    "body": "We don't start with the system — we start with understanding how your business actually runs. We analyze the gaps, redesign the procedures, then design the solution, train your team, and stay after launch — until the system becomes a genuine tool for oversight and decision-making, not just new software.",
+    "label": "Philosophy"
+  },
+  "services": {
+    "kicker": "Services",
+    "heading": "Four services, one balance",
+    "sub": "From gap analysis to post-launch training — every service is built to serve management, not just configuration."
+  },
+  "odoo": {
+    "kicker": "Odoo expertise",
+    "heading": "From understanding to post-launch support",
+    "sub": "We cover Odoo projects from version 13 through 19 — with a clear methodology that doesn't stop at technical setup.",
+    "steps": {
+      "discover": "Discover",
+      "discoverDesc": "Needs assessment & gap analysis",
+      "design": "Design",
+      "designDesc": "Procedure review & solution design",
+      "deploy": "Deploy",
+      "deployDesc": "System & data configuration",
+      "train": "Train",
+      "trainDesc": "Enabling your users on the system",
+      "support": "Support",
+      "supportDesc": "Ongoing operation & improvement"
+    },
+    "outcome": "The result: Odoo systems configured around how your organization actually works — not the other way around.",
+    "outcomeLink": "Explore the sectors we serve"
+  },
+  "sectors": {
+    "kicker": "Industries",
+    "heading": "Sectors we understand in detail",
+    "sub": "From government institutions to aviation — we've worked with organizations of very different oversight needs and operational complexity."
+  },
+  "triad": {
+    "kicker": "Vision · Mission · Purpose",
+    "heading": "Three pillars, one balance",
+    "visionTag": "Vision",
+    "missionTag": "Mission",
+    "purposeTag": "Purpose"
+  },
+  "clients": {
+    "kicker": "Clients",
+    "heading": "Trusted by institutions that mean business"
+  },
+  "team": {
+    "kicker": "Our team",
+    "heading": "The people behind every project"
+  },
+  "cta": {
+    "heading": "Let's talk about your organization",
+    "sub": "A first consultation, no strings attached — we understand where you stand today and propose the right path forward.",
+    "phone": "Phone",
+    "email": "Email",
+    "office": "Office"
+  },
+  "about": {
+    "eyebrow": "About us",
+    "heading": "A house of expertise, not just a technology vendor",
+    "intro": "Mizan Consulting & Training is a Libyan house of expertise specialized in developing the financial, administrative and operational performance of organizations — through consulting, training, and business transformation using ERP systems, chiefly Odoo.",
+    "body1": "We don't stop at implementing systems. We start by understanding how the business actually works, analyzing gaps, reviewing procedures, and designing solutions — then training users and following through on adoption, until the system becomes a genuine tool for management, oversight and decision-making.",
+    "body2": "We work with our clients as a professional partner helping them move from a workplace built on individuals and scattered files, to one that's organized, documented, and built to scale.",
+    "differentiatorTag": "What sets us apart",
+    "differentiator": "Combining financial and administrative expertise with a deep technical and operational understanding of the system — so the solutions we deliver genuinely serve management, not just technical configuration.",
+    "leadershipHeading": "Leadership"
+  },
+  "industriesPage": {
+    "eyebrow": "Industries",
+    "heading": "We speak your sector's language",
+    "sub": "Every industry has its own oversight requirements and operational complexity — that's what we build into every engagement."
+  },
+  "careers": {
+    "eyebrow": "Careers",
+    "heading": "Build your career with us",
+    "sub": "We're always looking for talent in financial and administrative consulting and Odoo delivery. No open positions are listed right now — send your CV and we'll reach out when a suitable role opens up.",
+    "cta": "Send your CV",
+    "valuesKicker": "What we look for",
+    "valuesHeading": "People who fit our team",
+    "valuesSub": "The same principles that govern our work with clients are what we look for in colleagues.",
+    "values": {
+      "understand": {
+        "title": "Understand before implementing",
+        "desc": "People who ask \"why\" before proposing a solution, not just deploying systems without grasping how the organization actually works."
+      },
+      "learn": {
+        "title": "Continuous learning",
+        "desc": "Odoo keeps evolving, and so do our clients' needs — we look for people who keep pace with real curiosity."
+      },
+      "measure": {
+        "title": "Measurable results",
+        "desc": "People who think about the actual impact on a client's business, not just checking a task off on paper."
+      },
+      "digital": {
+        "title": "Digital-first mindset",
+        "desc": "People who see digital systems as a tool for discipline and efficiency, not extra overhead."
+      }
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "heading": "Let's start the conversation",
+    "sub": "Fill out the form or reach us directly — we'll get back to you within one business day.",
+    "form": {
+      "name": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "company": "Organization",
+      "service": "Service of interest",
+      "message": "Tell us about your request",
+      "submit": "Send request",
+      "successTitle": "Request received",
+      "successBody": "Thank you for reaching out to Mizan — a member of our team will contact you within one business day."
+    }
+  }
+}
