@@ -27,11 +27,15 @@ const orbs = [
   { size: 340, top: "65%", left: "-5%", color: "radial-gradient(circle, var(--gold-200), transparent 70%)", driftX: 40, driftY: -30, duration: 21 },
 ];
 
-// The brand's signature cut corner (as seen on every button and card),
-// mirrored onto both top corners so the shape reads as a self-contained
-// "plaque" rather than a directional accent — the navbar's own emblem.
-const shieldClip = (cut: number) =>
-  `polygon(${cut}px 0, calc(100% - ${cut}px) 0, 100% ${cut}px, 100% 100%, 0 100%, 0 ${cut}px)`;
+// The exact cut used by every button and card on the site (see .chamfer /
+// .chamfer-sm in globals.css) — a single top-right corner, mirrored to
+// top-left in RTL. Parametrized here only because the navbar's elements
+// span a much wider size range (the bar itself vs. the small active-link
+// pill) than the two fixed CSS sizes cover.
+const navClip = (cut: number, rtl: boolean) =>
+  rtl
+    ? `polygon(${cut}px 0, 100% 0, 100% 100%, 0 100%, 0 ${cut}px)`
+    : `polygon(0 0, calc(100% - ${cut}px) 0, 100% ${cut}px, 100% 100%, 0 100%)`;
 
 export function Header() {
   const t = useTranslations("nav");
@@ -86,8 +90,8 @@ export function Header() {
             />
 
             <div
-              className="glass-nav flex w-full items-center gap-2 py-2 ps-3 pe-3 transition-[padding] duration-400 ease-out sm:gap-3 sm:py-2.5 sm:ps-4 sm:pe-4"
-              style={{ clipPath: shieldClip(20) }}
+              className="glass-nav flex w-full items-center gap-2 py-2 ps-4 pe-4 transition-[padding] duration-400 ease-out sm:gap-3 sm:py-2.5 sm:ps-5 sm:pe-5"
+              style={{ clipPath: navClip(24, locale === "ar") }}
             >
               {/* Logo — the bar's anchor, deliberately oversized */}
               <Link href="/" aria-label="Mizan" className="focus-ring group flex flex-none items-center" onClick={() => setOpen(false)}>
@@ -117,7 +121,7 @@ export function Header() {
                     >
                       <span
                         className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${active ? "!opacity-0" : ""}`}
-                        style={{ clipPath: shieldClip(8), background: "color-mix(in srgb, var(--bronze-500) 10%, transparent)" }}
+                        style={{ clipPath: navClip(8, locale === "ar"), background: "color-mix(in srgb, var(--bronze-500) 10%, transparent)" }}
                         aria-hidden
                       />
                       {active && (
@@ -125,7 +129,7 @@ export function Header() {
                           layoutId="nav-active"
                           className="absolute inset-0"
                           style={{
-                            clipPath: shieldClip(8),
+                            clipPath: navClip(8, locale === "ar"),
                             background: "linear-gradient(135deg, var(--bronze-600), var(--bronze-500))",
                             boxShadow: "0 8px 18px -8px color-mix(in srgb, var(--bronze-700) 60%, transparent)",
                           }}

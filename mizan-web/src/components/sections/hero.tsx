@@ -130,9 +130,18 @@ export function Hero() {
             "radial-gradient(60% 50% at 50% 8%, color-mix(in srgb, var(--gold-200) 18%, transparent), transparent 70%)",
         }}
       />
+      {/* Outro bridge — by the time a visitor scrolls this far the content has
+          already parallax-faded to nothing, leaving a stretch of plain ink
+          that used to hard-cut straight into the next section's paper tone.
+          Fading into that exact color here first makes the seam disappear
+          instead of reading as an abrupt stop. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56"
+        style={{ background: "linear-gradient(to bottom, transparent, var(--paper-sunken))" }}
+      />
 
       <div ref={contentRef} className="absolute inset-0">
-        <Container className="relative flex h-full flex-col pb-16 pt-36 sm:pb-20 sm:pt-40 lg:pb-24 lg:pt-44">
+        <Container className="relative flex h-full flex-col pb-20 pt-36 sm:pb-24 sm:pt-40 lg:pb-28 lg:pt-44">
           {/* mt-auto/mb-auto (not justify-center) so the block centers in the safe zone when
               there's room, but always falls back to sitting flush after pt — never overflowing
               back up into the nav's reserved clearance — on short viewports. */}
