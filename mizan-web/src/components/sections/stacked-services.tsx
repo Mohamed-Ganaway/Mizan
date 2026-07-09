@@ -14,18 +14,10 @@ const tints = [
   "linear-gradient(135deg, color-mix(in srgb, var(--graphite-600) 10%, var(--paper-raised)), var(--paper-raised) 65%)",
 ];
 
-// Extra pinned scroll distance (in "card units") reserved so the last card
-// gets a proper exit instead of the pin releasing the instant it settles —
-// the wrapper height and the scroll-progress math below must both use this
-// same value or the last card's exit will be cut off before it completes.
-const TAIL_UNITS = 0.6;
-
 /** Desktop-only pinned "stacking deck": each service takes the stage, then recedes as the next arrives. */
 function StackedDeck() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const bridgeRef = useRef<HTMLDivElement>(null);
-  const cueRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ensureGsapPlugins();
@@ -35,27 +27,20 @@ function StackedDeck() {
     const mm = gsap.matchMedia();
     mm.add("(min-width: 1024px)", () => {
       const n = services.length;
-      const easeEnter = gsap.parseEase("power2.out");
-      const easeExit = gsap.parseEase("power1.in");
-      const easeBridge = gsap.parseEase("power2.in");
-
       const trigger = ScrollTrigger.create({
         trigger: wrapRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.6,
+        scrub: 0.4,
         onUpdate: (self) => {
-          const p = self.progress * (n + TAIL_UNITS);
+          const p = self.progress * n;
           cardRefs.current.forEach((el, i) => {
             if (!el) return;
             // The first card is already on stage the moment the deck locks in —
             // no dead scroll before there's something to read. Cards after it
-            // keep a slower crossfade, now eased rather than linear so each
-            // handoff swells in and settles instead of moving at a constant rate.
-            const enterT = i === 0 ? 1 : gsap.utils.clamp(0, 1, p - i);
-            const exitT = gsap.utils.clamp(0, 1, (p - (i + 1)) / 0.5);
-            const enter = i === 0 ? 1 : easeEnter(enterT);
-            const exit = easeExit(exitT);
+            // keep the original, slower crossfade the deck had before.
+            const enter = i === 0 ? 1 : gsap.utils.clamp(0, 1, p - i);
+            const exit = i < n - 1 ? gsap.utils.clamp(0, 1, (p - (i + 1)) / 0.5) : 0;
             gsap.set(el, {
               opacity: enter * (1 - exit),
               scale: 0.92 + enter * 0.08 - exit * 0.1,
@@ -63,17 +48,6 @@ function StackedDeck() {
               zIndex: i,
             });
           });
-
-          // The pin stays locked to the viewport for its full scroll budget
-          // even after the last card has finished fading — without this, that
-          // remainder plays out as a static, contentless frame (which is what
-          // actually read as "the page stopped"). Washing the pinned frame
-          // toward the next section's own dark tone during exactly that
-          // stretch turns it into a visible handoff instead of a void.
-          const lastExitT = gsap.utils.clamp(0, 1, (p - n) / 0.5);
-          const bridge = easeBridge(lastExitT);
-          gsap.set(bridgeRef.current, { opacity: bridge });
-          gsap.set(cueRef.current, { opacity: bridge, y: (1 - bridge) * 16 });
         },
       });
       return () => trigger.kill();
@@ -86,7 +60,7 @@ function StackedDeck() {
   const locale = useLocale() as "ar" | "en";
 
   return (
-    <div ref={wrapRef} style={{ height: `${(services.length + TAIL_UNITS) * 100}vh` }} className="relative hidden lg:block">
+    <div ref={wrapRef} style={{ height: `${services.length * 100}vh` }} className="relative hidden lg:block">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         {services.map((s, i) => {
           const Icon = serviceIcons[s.slug];
@@ -169,25 +143,6 @@ function StackedDeck() {
             </div>
           );
         })}
-
-        {/* Bridges the pin's unavoidable trailing scroll budget into the next
-            section's own tone, so that stretch reads as an intentional
-            handoff rather than a blank hold once the last card is gone. */}
-        <div
-          ref={bridgeRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-0"
-          style={{ zIndex: 10, background: "var(--graphite-800)" }}
-        />
-        <div
-          ref={cueRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col items-center gap-2 opacity-0 text-graphite-200"
-          style={{ zIndex: 11 }}
-        >
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]">{tCommon("keepScrolling")}</span>
-          <span className="h-9 w-px animate-pulse bg-gradient-to-b from-bronze-400 to-transparent" />
-        </div>
       </div>
     </div>
   );
