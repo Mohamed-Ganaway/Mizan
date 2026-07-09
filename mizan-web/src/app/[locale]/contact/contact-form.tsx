@@ -16,6 +16,7 @@ export function ContactForm() {
   const t = useTranslations("contactPage.form");
   const locale = useLocale() as "ar" | "en";
   const [sent, setSent] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const {
     register,
@@ -25,7 +26,12 @@ export function ContactForm() {
 
   async function onSubmit(data: ContactInput) {
     const res = await submitContact(data);
-    if (res.ok) setSent(true);
+    if (res.ok) {
+      setSent(true);
+      setFailed(false);
+    } else {
+      setFailed(true);
+    }
   }
 
   if (sent) {
@@ -71,6 +77,7 @@ export function ContactForm() {
         <textarea {...register("message")} placeholder={t("message")} rows={5} className={inputClass} />
         {errors.message && <p className="mt-1.5 text-xs text-bronze-700">{errors.message.message}</p>}
       </div>
+      {failed && <p className="text-sm text-bronze-700">{t("errorBody")}</p>}
       <button
         type="submit"
         disabled={isSubmitting}

@@ -49,7 +49,7 @@ export function OdooSpotlight() {
 
   useEffect(() => {
     setFinePointer(
-      window matchMedia("(pointer: fine)").matches &&
+      window.matchMedia("(pointer: fine)").matches &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
     return () => {

@@ -159,7 +159,8 @@
       "message": "Tell us about your request",
       "submit": "Send request",
       "successTitle": "Request received",
-      "successBody": "Thank you for reaching out to Mizan — a member of our team will contact you within one business day."
+      "successBody": "Thank you for reaching out to Mizan — a member of our team will contact you within one business day.",
+      "errorBody": "Something went wrong sending your request. Please try again, or email us directly at info@mizan.com.ly."
     }
   }
 }

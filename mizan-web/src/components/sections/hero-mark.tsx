@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import { BASE_PATH } from "@/base-path";
 
 /**
  * The brand's logo-assembly animation, looping infinitely as an ambient
@@ -18,7 +19,7 @@ export const HeroVideoBackground = forwardRef<HTMLVideoElement>(function HeroVid
       playsInline
       preload="auto"
     >
-      <source src="/brand/mizan-logo-animation.mp4" type="video/mp4" />
+      <source src={`${BASE_PATH}/brand/mizan-logo-animation.mp4`} type="video/mp4" />
     </video>
   );
 });
