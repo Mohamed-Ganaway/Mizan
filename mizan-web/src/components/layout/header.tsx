@@ -27,11 +27,11 @@ const orbs = [
   { size: 340, top: "65%", left: "-5%", color: "radial-gradient(circle, var(--gold-200), transparent 70%)", driftX: 40, driftY: -30, duration: 21 },
 ];
 
-// The brand's signature cut corner (as seen on every button and card),
-// mirrored onto both top corners so the shape reads as a self-contained
-// "plaque" rather than a directional accent — the navbar's own emblem.
-const shieldClip = (cut: number) =>
-  `polygon(${cut}px 0, calc(100% - ${cut}px) 0, 100% ${cut}px, 100% 100%, 0 100%, 0 ${cut}px)`;
+// The brand's signature cut corner — same single top-right chamfer used on
+// every button (.chamfer). Fixed, not mirrored for RTL: the navbar's shape
+// is part of its composition, which stays identical between locales (see
+// the dir="ltr" lock on the bar below).
+const navClip = (cut: number) => `polygon(0 0, calc(100% - ${cut}px) 0, 100% ${cut}px, 100% 100%, 0 100%)`;
 
 export function Header() {
   const t = useTranslations("nav");
@@ -75,7 +75,15 @@ export function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className={`transition-opacity duration-500 ease-out ${scrolled ? "opacity-80" : "opacity-100"}`}>
+      {/* dir="ltr" locked: the persistent bar's composition (logo left, links
+          centered in reading order, actions right) must stay identical
+          between locales — only the text/labels inside change. The
+          full-screen mobile menu below is a separate surface and keeps
+          following the page's real direction. */}
+      <div
+        dir="ltr"
+        className={`transition-opacity duration-500 ease-out ${scrolled ? "opacity-80" : "opacity-100"}`}
+      >
         <Container className={`flex justify-center transition-[padding] duration-400 ease-out ${scrolled ? "pt-3 sm:pt-4" : "pt-5 sm:pt-7"}`}>
           <div className="relative flex w-full max-w-6xl justify-center">
             {/* Ambient glow — the bar's own soft light source */}
@@ -87,7 +95,7 @@ export function Header() {
 
             <div
               className="glass-nav flex w-full items-center gap-2 py-2 ps-3 pe-3 transition-[padding] duration-400 ease-out sm:gap-3 sm:py-2.5 sm:ps-4 sm:pe-4"
-              style={{ clipPath: shieldClip(20) }}
+              style={{ clipPath: navClip(22) }}
             >
               {/* Logo — the bar's anchor, deliberately oversized */}
               <Link href="/" aria-label="Mizan" className="focus-ring group flex flex-none items-center" onClick={() => setOpen(false)}>
@@ -117,7 +125,7 @@ export function Header() {
                     >
                       <span
                         className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${active ? "!opacity-0" : ""}`}
-                        style={{ clipPath: shieldClip(8), background: "color-mix(in srgb, var(--bronze-500) 10%, transparent)" }}
+                        style={{ clipPath: navClip(8), background: "color-mix(in srgb, var(--bronze-500) 10%, transparent)" }}
                         aria-hidden
                       />
                       {active && (
@@ -125,7 +133,7 @@ export function Header() {
                           layoutId="nav-active"
                           className="absolute inset-0"
                           style={{
-                            clipPath: shieldClip(8),
+                            clipPath: navClip(8),
                             background: "linear-gradient(135deg, var(--bronze-600), var(--bronze-500))",
                             boxShadow: "0 8px 18px -8px color-mix(in srgb, var(--bronze-700) 60%, transparent)",
                           }}
@@ -145,11 +153,15 @@ export function Header() {
                   {t("bookConsultation")}
                 </Button>
 
-                {/* Mobile / tablet trigger — same plaque geometry, smaller scale */}
+                {/* Mobile / tablet trigger — same plaque geometry, smaller scale.
+                    Inline navClip (not .chamfer-sm) because that class mirrors
+                    off the page's real dir="rtl", which would fight this bar's
+                    fixed-geometry lock. */}
                 <button
                   type="button"
                   data-cursor-hover
-                  className="chamfer-sm flex h-11 items-center gap-2.5 border border-line-strong px-3 transition-colors duration-300 hover:border-bronze-500 lg:hidden"
+                  className="flex h-11 items-center gap-2.5 border border-line-strong px-3 transition-colors duration-300 hover:border-bronze-500 lg:hidden"
+                  style={{ clipPath: navClip(10) }}
                   aria-label={open ? t("close") : t("menu")}
                   aria-expanded={open}
                   onClick={() => setOpen((v) => !v)}
@@ -183,7 +195,10 @@ export function Header() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: locale === "ar" ? "top left" : "top right" }}
+            // The trigger button that opens this menu now sits at a fixed
+            // top-right position in both locales, so the menu always scales
+            // in from that same corner (see the dir="ltr" lock on the bar).
+            style={{ transformOrigin: "top right" }}
             className="fixed inset-0 z-[100] overflow-hidden bg-graphite-800 text-paper lg:hidden"
           >
             <FloatingOrbs orbs={orbs} />
