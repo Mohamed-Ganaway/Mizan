@@ -82,7 +82,7 @@ export default async function ServiceDetailPage({
               {loc === "ar" ? "ما تحصل عليه" : "What's included"}
             </h2>
             <div className="mt-6 max-w-md">
-              <MeanderDivider />
+              <MeanderDivider eager />
             </div>
             <ul className="mt-8 grid gap-4 sm:grid-cols-2">
               {service.bullets.map((b) => (

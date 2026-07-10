@@ -39,7 +39,7 @@ export default async function ContactPage({
           <p className="lede mt-6 max-w-md">{t("sub")}</p>
 
           <div className="mt-8 max-w-xs">
-            <MeanderDivider />
+            <MeanderDivider eager />
           </div>
 
           <div className="mt-8 flex flex-col gap-5 font-mono text-sm">

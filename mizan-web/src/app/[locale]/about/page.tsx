@@ -42,7 +42,7 @@ export default async function AboutPage({
             <div className="chamfer border border-bronze-500 bg-paper-raised p-8 sm:p-10">
               <span className="eyebrow text-bronze-600">{t("differentiatorTag")}</span>
               <div className="mt-5 max-w-sm">
-                <MeanderDivider />
+                <MeanderDivider eager />
               </div>
               <p className={`mt-6 max-w-2xl text-h3 leading-snug ${loc === "ar" ? "font-display-ar" : "font-display"}`}>
                 {t("differentiator")}

@@ -27,51 +27,50 @@ export function Thesis() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    const ctx = gsap.matchMedia();
-    ctx.add("(min-width: 640px)", () => {
-      const beam = beamRef.current;
-      const panA = panARef.current;
-      const panB = panBRef.current;
-      if (!beam || !panA || !panB) return;
+    // No viewport gate: the scroll-linked settle + idle breathing are unit-
+    // agnostic (degrees of rotation, a few px of drift) and just as cheap at
+    // phone size — gating them to desktop only left the scale permanently
+    // flat/static on every phone, which read as broken rather than premium.
+    const beam = beamRef.current;
+    const panA = panARef.current;
+    const panB = panBRef.current;
+    if (!beam || !panA || !panB) return;
 
-      const apply = () => {
-        const total = angleRef.current.scroll + angleRef.current.hover;
-        gsap.set(beam, { rotate: total });
-        gsap.set([panA, panB], { rotate: -total });
-      };
+    const apply = () => {
+      const total = angleRef.current.scroll + angleRef.current.hover;
+      gsap.set(beam, { rotate: total });
+      gsap.set([panA, panB], { rotate: -total });
+    };
 
-      gsap.set(glowRef.current, { opacity: 0.3 });
-      apply();
+    gsap.set(glowRef.current, { opacity: 0.3 });
+    apply();
 
-      // Idle breathing — the whole rig drifts gently even at rest, so it never
-      // reads as a static illustration.
-      const idle = gsap.to(rigRef.current, {
-        y: 9,
-        duration: 3.4,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
-
-      const trigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top 85%",
-        end: "top 30%",
-        scrub: 0.6,
-        onUpdate: (self) => {
-          angleRef.current.scroll = gsap.utils.interpolate(REST_ANGLE, 0, self.progress);
-          gsap.set(glowRef.current, { opacity: 0.3 + self.progress * 0.5 });
-          apply();
-        },
-      });
-
-      return () => {
-        trigger.kill();
-        idle.kill();
-      };
+    // Idle breathing — the whole rig drifts gently even at rest, so it never
+    // reads as a static illustration.
+    const idle = gsap.to(rigRef.current, {
+      y: 9,
+      duration: 3.4,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
     });
 
-    return () => ctx.revert();
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top 85%",
+      end: "top 30%",
+      scrub: 0.6,
+      onUpdate: (self) => {
+        angleRef.current.scroll = gsap.utils.interpolate(REST_ANGLE, 0, self.progress);
+        gsap.set(glowRef.current, { opacity: 0.3 + self.progress * 0.5 });
+        apply();
+      },
+    });
+
+    return () => {
+      trigger.kill();
+      idle.kill();
+    };
   }, []);
 
   const tiltTo = (hover: number, glowBoost = false) => {

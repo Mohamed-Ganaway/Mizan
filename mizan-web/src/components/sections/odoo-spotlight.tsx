@@ -371,7 +371,14 @@ export function OdooSpotlight() {
         <div ref={versionRailRef} className="relative mt-20">
           <p className="eyebrow text-graphite-200">{locale === "ar" ? "تغطية الإصدارات" : "Version coverage"}</p>
           <div className="relative mt-8 pb-2">
-            <svg className="absolute left-0 top-[15px] h-[2px] w-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 2">
+            {/* The connecting line only makes sense once versions sit in a
+                single row — below sm they wrap onto multiple lines, so a
+                line "connecting" them would float across unrelated rows. */}
+            <svg
+              className="absolute left-0 top-[15px] hidden h-[2px] w-full overflow-visible sm:block"
+              preserveAspectRatio="none"
+              viewBox="0 0 100 2"
+            >
               <line x1="0" y1="1" x2="100" y2="1" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
               <line
                 ref={versionLineRef}
@@ -386,7 +393,7 @@ export function OdooSpotlight() {
             <div
               ref={versionDotRef}
               aria-hidden
-              className="pointer-events-none absolute top-[10.5px] h-[11px] w-[11px] -translate-x-1/2 rounded-full opacity-0"
+              className="pointer-events-none absolute top-[10.5px] hidden h-[11px] w-[11px] -translate-x-1/2 rounded-full opacity-0 sm:block"
               style={{ background: "var(--gold-200)", boxShadow: "0 0 12px 3px color-mix(in srgb, var(--gold-200) 65%, transparent)" }}
             />
             <div className="relative flex justify-between">
@@ -421,8 +428,11 @@ export function OdooSpotlight() {
         {/* Methodology */}
         <div ref={railRef} className="relative mt-20 pt-10">
           <p className="eyebrow mb-8 text-graphite-200">{locale === "ar" ? "منهجيتنا" : "Our methodology"}</p>
+          {/* Five steps sit in one row from sm up (grid-cols-5) but stack to a
+              single column below it — a horizontal connector only reads
+              correctly once they're actually side by side. */}
           <svg
-            className="absolute left-0 top-[42px] h-[2px] w-full overflow-visible"
+            className="absolute left-0 top-[42px] hidden h-[2px] w-full overflow-visible sm:block"
             preserveAspectRatio="none"
             viewBox="0 0 100 2"
             style={locale === "ar" ? { transform: "scaleX(-1)" } : undefined}
@@ -433,7 +443,7 @@ export function OdooSpotlight() {
           <div
             ref={methodDotRef}
             aria-hidden
-            className="pointer-events-none absolute top-[37px] h-3 w-3 -translate-x-1/2 rounded-full opacity-0"
+            className="pointer-events-none absolute top-[37px] hidden h-3 w-3 -translate-x-1/2 rounded-full opacity-0 sm:block"
             style={{ background: "var(--gold-200)", boxShadow: "0 0 14px 4px color-mix(in srgb, var(--gold-200) 60%, transparent)" }}
           />
 
@@ -475,7 +485,7 @@ export function OdooSpotlight() {
             <Link
               href="/industries"
               data-cursor-hover
-              className="group/link inline-flex flex-none items-center gap-2 font-mono text-xs uppercase tracking-wider text-gold-200 transition-colors hover:text-paper"
+              className="group/link -my-3 inline-flex flex-none items-center gap-2 py-3 font-mono text-xs uppercase tracking-wider text-gold-200 transition-colors hover:text-paper"
             >
               {t("outcomeLink")}
               <span

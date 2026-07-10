@@ -34,7 +34,7 @@ export function Footer() {
               <Link
                 key={s.slug}
                 href={`/services/${s.slug}`}
-                className="focus-ring text-sm text-ink-soft hover:text-bronze-600"
+                className="focus-ring -my-2 py-2 text-sm text-ink-soft hover:text-bronze-600"
               >
                 {s.title[locale]}
               </Link>
@@ -45,16 +45,16 @@ export function Footer() {
             <h3 className="font-mono text-xs uppercase tracking-wider text-ink-faint">
               {t("companyHeading")}
             </h3>
-            <Link href="/about" className="focus-ring text-sm text-ink-soft hover:text-bronze-600">
+            <Link href="/about" className="focus-ring -my-2 py-2 text-sm text-ink-soft hover:text-bronze-600">
               {tNav("about")}
             </Link>
-            <Link href="/industries" className="focus-ring text-sm text-ink-soft hover:text-bronze-600">
+            <Link href="/industries" className="focus-ring -my-2 py-2 text-sm text-ink-soft hover:text-bronze-600">
               {tNav("industries")}
             </Link>
-            <Link href="/careers" className="focus-ring text-sm text-ink-soft hover:text-bronze-600">
+            <Link href="/careers" className="focus-ring -my-2 py-2 text-sm text-ink-soft hover:text-bronze-600">
               {tNav("careers")}
             </Link>
-            <Link href="/contact" className="focus-ring text-sm text-ink-soft hover:text-bronze-600">
+            <Link href="/contact" className="focus-ring -my-2 py-2 text-sm text-ink-soft hover:text-bronze-600">
               {tNav("contact")}
             </Link>
           </div>

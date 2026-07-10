@@ -38,35 +38,36 @@ export function Triad() {
   useEffect(() => {
     ensureGsapPlugins();
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mm = gsap.matchMedia();
+    if (reduced) return;
 
-    mm.add("(min-width: 768px)", () => {
-      const line = lineRef.current;
-      const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
-      if (reduced || !line) return;
+    // No viewport gate on the trigger itself: the connecting line is already
+    // hidden below md via CSS (its drawSVG progress animates for free either
+    // way), but the card opacity/scale reveal is exactly the kind of "feels
+    // alive on scroll" cue mobile was missing entirely — gating the whole
+    // trigger to desktop left phone users with static, ungated cards.
+    const line = lineRef.current;
+    const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
+    if (!line) return;
 
-      gsap.set(line, { drawSVG: "0%" });
-      gsap.set(cards, { opacity: 0.5, scale: 0.96 });
+    gsap.set(line, { drawSVG: "0%" });
+    gsap.set(cards, { opacity: 0.5, scale: 0.96 });
 
-      const trigger = ScrollTrigger.create({
-        trigger: railRef.current,
-        start: "top 78%",
-        end: "bottom 55%",
-        scrub: 0.5,
-        onUpdate: (self) => {
-          gsap.set(line, { drawSVG: `0% ${self.progress * 100}%` });
-          cards.forEach((el, i) => {
-            const threshold = i / (cards.length - 1);
-            const active = self.progress >= threshold - 0.05;
-            gsap.set(el, { opacity: active ? 1 : 0.5, scale: active ? 1 : 0.96 });
-          });
-        },
-      });
-
-      return () => trigger.kill();
+    const trigger = ScrollTrigger.create({
+      trigger: railRef.current,
+      start: "top 78%",
+      end: "bottom 55%",
+      scrub: 0.5,
+      onUpdate: (self) => {
+        gsap.set(line, { drawSVG: `0% ${self.progress * 100}%` });
+        cards.forEach((el, i) => {
+          const threshold = i / (cards.length - 1);
+          const active = self.progress >= threshold - 0.05;
+          gsap.set(el, { opacity: active ? 1 : 0.5, scale: active ? 1 : 0.96 });
+        });
+      },
     });
 
-    return () => mm.revert();
+    return () => trigger.kill();
   }, []);
 
   return (

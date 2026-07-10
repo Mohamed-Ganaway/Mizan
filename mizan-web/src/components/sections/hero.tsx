@@ -187,14 +187,16 @@ export function Hero() {
                 <div className="mt-1 text-xs text-graphite-200">{t("statSectors")}</div>
               </div>
             </div>
-          </Container>
-        </div>
 
-        {/* Decorative only — steps aside on short viewports rather than overlapping the
-            stats row, since it's a hint, not content. */}
-        <div className="absolute inset-x-0 bottom-4 hidden flex-col items-center gap-2 text-graphite-200 [@media(min-height:760px)]:flex">
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]">{t("scrollCue")}</span>
-          <span className="h-9 w-px animate-pulse bg-gradient-to-b from-bronze-400 to-transparent" />
+            {/* In normal flow (not absolutely pinned to the screen's bottom
+                edge) so it can never overlap the stats above it — at narrow
+                widths the middle stat's label wraps to two lines, which used
+                to collide with a fixed-position cue that assumed one line. */}
+            <div className="mt-10 hidden flex-col items-center gap-2 text-graphite-200 [@media(min-height:760px)]:flex">
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]">{t("scrollCue")}</span>
+              <span className="h-9 w-px animate-pulse bg-gradient-to-b from-bronze-400 to-transparent" />
+            </div>
+          </Container>
         </div>
       </div>
 

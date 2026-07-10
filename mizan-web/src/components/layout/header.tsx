@@ -149,9 +149,19 @@ export function Header() {
               {/* Actions */}
               <div className="ms-auto flex flex-none items-center gap-2.5 sm:gap-3">
                 <LocaleSwitch className="focus-ring hidden font-mono text-xs tracking-wide text-ink-faint transition-colors hover:text-bronze-600 lg:inline-flex" />
-                <Button href="/contact" variant="primary" className="hidden text-[0.92rem] lg:inline-flex">
-                  {t("bookConsultation")}
-                </Button>
+                {/* Wrapper (not className on Button) controls visibility: Button's
+                    own base classes hardcode "inline-flex" unconditionally, which
+                    is the same specificity as a bare "hidden" override — the two
+                    fight for source-order in Tailwind's generated CSS instead of
+                    respecting JSX order, and "hidden" was losing, silently
+                    rendering this CTA on mobile and shoving the real trigger
+                    button off-screen. A hidden ancestor removes the whole
+                    subtree unconditionally, so there's nothing left to fight. */}
+                <div className="hidden lg:block">
+                  <Button href="/contact" variant="primary" className="text-[0.92rem]">
+                    {t("bookConsultation")}
+                  </Button>
+                </div>
 
                 {/* Mobile / tablet trigger — same plaque geometry, smaller scale.
                     Inline navClip (not .chamfer-sm) because that class mirrors

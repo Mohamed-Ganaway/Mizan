@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { gsap, ScrollTrigger, ensureGsapPlugins } from "@/lib/gsap";
 import { services } from "@/content/services";
 import { serviceIcons } from "@/components/icons/service-icons";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 const tints = [
   "linear-gradient(135deg, color-mix(in srgb, var(--bronze-500) 12%, var(--paper-raised)), var(--paper-raised) 65%)",
@@ -153,38 +154,39 @@ function SimpleList() {
   const locale = useLocale() as "ar" | "en";
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-6 sm:px-8 lg:hidden">
+    <RevealGroup className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-6 sm:px-8 lg:hidden" stagger={0.12}>
       {services.map((s, i) => {
         const Icon = serviceIcons[s.slug];
         return (
-          <Link
-            key={s.slug}
-            href={`/services/${s.slug}`}
-            data-cursor-hover
-            className="card-accent chamfer focus-ring group block border border-line bg-paper-raised p-7 transition-colors duration-300 hover:border-bronze-400 sm:p-9"
-          >
-            <div className="flex items-start gap-5">
-              <div className="flex h-14 w-14 flex-none items-center justify-center border border-bronze-500/30 bg-paper-sunken text-bronze-600">
-                <Icon className="h-7 w-7" />
+          <RevealItem key={s.slug}>
+            <Link
+              href={`/services/${s.slug}`}
+              data-cursor-hover
+              className="card-accent chamfer focus-ring group block border border-line bg-paper-raised p-7 transition-[border-color,transform,box-shadow] duration-300 hover:border-bronze-400 active:scale-[0.98] active:border-bronze-400 sm:p-9"
+            >
+              <div className="flex items-start gap-5">
+                <div className="flex h-14 w-14 flex-none items-center justify-center border border-bronze-500/30 bg-paper-sunken text-bronze-600 transition-transform duration-300 group-active:scale-110">
+                  <Icon className="h-7 w-7" />
+                </div>
+                <div>
+                  <span className="font-mono text-xs text-ink-faint">0{i + 1}</span>
+                  <h3 className={`mt-1 text-h3 ${locale === "ar" ? "font-display-ar" : "font-display"}`}>
+                    {s.title[locale]}
+                  </h3>
+                </div>
               </div>
-              <div>
-                <span className="font-mono text-xs text-ink-faint">0{i + 1}</span>
-                <h3 className={`mt-1 text-h3 ${locale === "ar" ? "font-display-ar" : "font-display"}`}>
-                  {s.title[locale]}
-                </h3>
-              </div>
-            </div>
-            <p className="mt-4 text-[0.95rem] text-ink-soft">{s.summary[locale]}</p>
-            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-bronze-600">
-              {tCommon("learnMore")}
-              <span className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden>
-                {locale === "ar" ? "←" : "→"}
+              <p className="mt-4 text-[0.95rem] text-ink-soft">{s.summary[locale]}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-bronze-600">
+                {tCommon("learnMore")}
+                <span className="transition-transform group-hover:translate-x-1 group-active:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-active:-translate-x-1" aria-hidden>
+                  {locale === "ar" ? "←" : "→"}
+                </span>
               </span>
-            </span>
-          </Link>
+            </Link>
+          </RevealItem>
         );
       })}
-    </div>
+    </RevealGroup>
   );
 }
 
