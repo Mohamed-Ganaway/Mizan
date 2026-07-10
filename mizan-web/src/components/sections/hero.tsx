@@ -107,92 +107,106 @@ export function Hero() {
   });
 
   return (
-    <section ref={sectionRef} className="relative min-h-[calc(100svh+5rem)] overflow-hidden bg-ink">
-      <div ref={videoWrapRef} className="absolute inset-0">
-        {!reduced && <HeroVideoBackground ref={videoRef} />}
-        {/* Warm bronze tint so the raw footage reads as part of the palette — kept light so the
-            animation itself stays visible, not a muddy backdrop. */}
+    <section ref={sectionRef} className="relative overflow-hidden bg-ink">
+      {/* The "screen" — min-h-svh, not a fixed height, so it can only ever grow to fit
+          its content (never clip it). justify-center does the vertical centering, using
+          the screen's own top/bottom padding as the reserved nav-clearance/balance zone —
+          no auto-margin-vs-overflow math, so short viewports simply flow from the top
+          instead of colliding with the nav or the section below. */}
+      <div className="relative flex min-h-svh flex-col justify-center overflow-hidden pb-16 pt-36 sm:pb-20 sm:pt-40 lg:pb-24 lg:pt-44">
+        <div ref={videoWrapRef} className="absolute inset-0">
+          {!reduced && <HeroVideoBackground ref={videoRef} />}
+          {/* Warm bronze tint so the raw footage reads as part of the palette — kept light so the
+              animation itself stays visible, not a muddy backdrop. */}
+          <div
+            className="absolute inset-0 opacity-55 mix-blend-color"
+            style={{ backgroundColor: "var(--bronze-700)" }}
+          />
+          <div className="texture-dots-light absolute inset-0 opacity-25" />
+        </div>
+
+        {/* Legibility scrim concentrated behind the content block (bottom) — the video stays
+            clearly visible through the top two-thirds instead of a flat wash over the whole frame. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[78%] bg-gradient-to-t from-ink via-ink/55 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent sm:h-40" />
         <div
-          className="absolute inset-0 opacity-55 mix-blend-color"
-          style={{ backgroundColor: "var(--bronze-700)" }}
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 50% 8%, color-mix(in srgb, var(--gold-200) 18%, transparent), transparent 70%)",
+          }}
         />
-        <div className="texture-dots-light absolute inset-0 opacity-25" />
-      </div>
 
-      {/* Legibility scrim concentrated behind the content block (bottom) — the video stays
-          clearly visible through the top two-thirds instead of a flat wash over the whole frame. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[78%] bg-gradient-to-t from-ink via-ink/55 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent sm:h-40" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(60% 50% at 50% 8%, color-mix(in srgb, var(--gold-200) 18%, transparent), transparent 70%)",
-        }}
-      />
+        <div ref={contentRef} className="relative">
+          <Container>
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-gold-200">{t("eyebrow")}</p>
 
-      <div ref={contentRef} className="absolute inset-0">
-        <Container className="relative flex h-full flex-col pb-16 pt-36 sm:pb-20 sm:pt-40 lg:pb-24 lg:pt-44">
-          {/* mt-auto/mb-auto (not justify-center) so the block centers in the safe zone when
-              there's room, but always falls back to sitting flush after pt — never overflowing
-              back up into the nav's reserved clearance — on short viewports. */}
-          <p className="mt-auto font-mono text-xs uppercase tracking-[0.16em] text-gold-200">{t("eyebrow")}</p>
-
-          <h1
-            ref={headlineRef}
-            className={`mt-6 max-w-4xl text-balance text-hero text-paper opacity-0 ${
-              locale === "ar" ? "font-display-ar" : "font-display"
-            }`}
-          >
-            {t("headline")}
-          </h1>
-
-          <p className="lede mt-6 max-w-xl !text-graphite-200">{t("sub")}</p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-4 sm:mt-10">
-            <Magnetic>
-              <Button href="/contact" variant="primary">
-                {tCommon("bookConsultation")}
-              </Button>
-            </Magnetic>
-            <Button
-              href="/services/odoo-erp"
-              variant="ghost"
-              className="!border-white/25 !text-paper hover:!border-bronze-400 hover:!text-bronze-300"
+            <h1
+              ref={headlineRef}
+              className={`mt-6 max-w-4xl text-balance text-hero text-paper opacity-0 ${
+                locale === "ar" ? "font-display-ar" : "font-display"
+              }`}
             >
-              {tCommon("exploreOdoo")}
-            </Button>
-          </div>
+              {t("headline")}
+            </h1>
 
-          <div className="mb-auto mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-white/15 pt-6 sm:mt-16">
-            <div>
-              <div className="font-display text-stat text-gold-200">
-                <CountUp value={22} suffix="+" />
-              </div>
-              <div className="mt-1 text-xs text-graphite-200">{t("statYears")}</div>
+            <p className="lede mt-6 max-w-xl !text-graphite-200">{t("sub")}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4 sm:mt-10">
+              <Magnetic>
+                <Button href="/contact" variant="primary">
+                  {tCommon("bookConsultation")}
+                </Button>
+              </Magnetic>
+              <Button
+                href="/services/odoo-erp"
+                variant="ghost"
+                className="!border-white/25 !text-paper hover:!border-bronze-400 hover:!text-bronze-300"
+              >
+                {tCommon("exploreOdoo")}
+              </Button>
             </div>
-            <div>
-              <div dir="ltr" className="text-start font-display text-stat text-gold-200">
-                13–19
+
+            <div className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-white/15 pt-6 sm:mt-16">
+              <div>
+                <div className="font-display text-stat text-gold-200">
+                  <CountUp value={22} suffix="+" />
+                </div>
+                <div className="mt-1 text-xs text-graphite-200">{t("statYears")}</div>
               </div>
-              <div className="mt-1 text-xs text-graphite-200">{t("statOdoo")}</div>
-            </div>
-            <div>
-              <div className="font-display text-stat text-gold-200">
-                <CountUp value={10} />
+              <div>
+                <div dir="ltr" className="text-start font-display text-stat text-gold-200">
+                  13–19
+                </div>
+                <div className="mt-1 text-xs text-graphite-200">{t("statOdoo")}</div>
               </div>
-              <div className="mt-1 text-xs text-graphite-200">{t("statSectors")}</div>
+              <div>
+                <div className="font-display text-stat text-gold-200">
+                  <CountUp value={10} />
+                </div>
+                <div className="mt-1 text-xs text-graphite-200">{t("statSectors")}</div>
+              </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
+
+        {/* Decorative only — steps aside on short viewports rather than overlapping the
+            stats row, since it's a hint, not content. */}
+        <div className="absolute inset-x-0 bottom-4 hidden flex-col items-center gap-2 text-graphite-200 [@media(min-height:760px)]:flex">
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]">{t("scrollCue")}</span>
+          <span className="h-9 w-px animate-pulse bg-gradient-to-b from-bronze-400 to-transparent" />
+        </div>
       </div>
 
-      {/* Decorative only — steps aside on short viewports rather than overlapping the
-          stats row, since it's a hint, not content. */}
-      <div className="absolute inset-x-0 bottom-4 hidden flex-col items-center gap-2 text-graphite-200 [@media(min-height:760px)]:flex">
-        <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em]">{t("scrollCue")}</span>
-        <span className="h-9 w-px animate-pulse bg-gradient-to-b from-bronze-400 to-transparent" />
-      </div>
+      {/* Deliberate outro — real, always-rendered flow height (never padding competing
+          for room inside the viewport-locked screen above), scaled to viewport height so
+          the gap reads the same everywhere. The hero visibly ends, ink fades to the exact
+          paper-sunken tone Sectors We Serve opens on, then that section begins. */}
+      <div
+        aria-hidden
+        className="relative h-[clamp(6rem,12vh,12rem)]"
+        style={{ background: "linear-gradient(to bottom, var(--ink), var(--paper-sunken))" }}
+      />
     </section>
   );
 }
