@@ -3,7 +3,7 @@ export interface Env {
   ODOO_DB: string;
   ODOO_USERNAME: string;
   ODOO_API_KEY: string;
-  ALLOWED_ORIGIN: string;
+  ALLOWED_ORIGINS: string;
 }
 
 interface LeadPayload {
@@ -17,10 +17,13 @@ interface LeadPayload {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    const allowedOrigins = env.ALLOWED_ORIGINS.split(",").map((o) => o.trim());
+    const requestOrigin = request.headers.get("Origin") ?? "";
     const cors = {
-      "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN,
+      "Access-Control-Allow-Origin": allowedOrigins.includes(requestOrigin) ? requestOrigin : allowedOrigins[0],
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      Vary: "Origin",
     };
 
     if (request.method === "OPTIONS") {
