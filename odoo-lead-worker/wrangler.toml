@@ -1,0 +1,11 @@
+name = "mizan-odoo-leads"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Non-secret config — the Odoo API key itself is set separately via
+# `wrangler secret put ODOO_API_KEY` and never lives in this file.
+[vars]
+ODOO_URL = "https://mizan-ct.odoo.com"
+ODOO_DB = "mizan-ct"
+ODOO_USERNAME = "m.ganaway@mizan.com.ly"
+ALLOWED_ORIGIN = "https://mohamed-ganaway.github.io"

@@ -1,0 +1,21 @@
+{
+  // Tells Cloudflare this is a plain static-assets Worker (the `out/`
+  // folder from `next build`'s static export), not a Node/SSR app. Without
+  // this file, Cloudflare's Git-connected build auto-detects "Next.js" and
+  // tries to bootstrap the OpenNext SSR adapter, which fails immediately
+  // because a static export has no `.next/standalone` server bundle for it
+  // to build from. No `main` field is set on purpose — that's what keeps
+  // this as pure static hosting instead of running a Worker script.
+  "name": "mizan",
+  "compatibility_date": "2026-07-27",
+  "assets": {
+    "directory": "out",
+    "not_found_handling": "404-page"
+  },
+  // Build-time vars for Cloudflare Workers Builds. This URL is public (the
+  // Worker itself enforces CORS + validation), so it's safe to commit —
+  // unlike the Odoo API key, which is a Worker secret and never lives here.
+  "vars": {
+    "NEXT_PUBLIC_ODOO_LEADS_ENDPOINT": "https://mizan-odoo-leads.mohamed-qanaway.workers.dev"
+  }
+}

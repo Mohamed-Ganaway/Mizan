@@ -5,11 +5,13 @@ import { BASE_PATH } from "./src/base-path";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  // GitHub Pages is pure static file hosting — no Node server, no proxy/
-  // middleware, no server actions, no on-demand image optimization. This
-  // produces a plain `out/` folder of HTML/CSS/JS instead.
+  // Both GitHub Pages and Cloudflare (static-assets Worker) serve this as
+  // plain static files — no Node server, no proxy/middleware, no server
+  // actions, no on-demand image optimization. This produces a plain `out/`
+  // folder of HTML/CSS/JS instead.
   output: "export",
-  // Served at <username>.github.io/Mizan/, not the domain root.
+  // Empty on Cloudflare (served at its own domain root); "/Mizan" on GitHub
+  // Pages, which serves this as <username>.github.io/Mizan/. See base-path.ts.
   basePath: BASE_PATH,
   assetPrefix: BASE_PATH,
   // GitHub Pages resolves `/about/` to `/about/index.html` (standard static

@@ -48,7 +48,8 @@ jobs:
 
       - name: Build static export
         env:
-          NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+          NEXT_PUBLIC_ODOO_LEADS_ENDPOINT: ${{ vars.ODOO_LEADS_ENDPOINT }}
+          NEXT_PUBLIC_DEPLOY_TARGET: github-pages
         run: npm run build
 
       - name: Add .nojekyll

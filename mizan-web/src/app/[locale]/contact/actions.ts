@@ -1,12 +1,10 @@
 import { contactSchema, type ContactInput } from "@/lib/contact-schema";
 
-const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
-
 /**
- * Static export has no server, so this runs entirely in the browser.
- * Web3Forms is designed for exactly that — its access key is meant to ship
- * in client bundles (unlike a normal API secret) and accepts direct
- * cross-origin POSTs, emailing the lead to whoever owns the key.
+ * Static export has no server, so this runs entirely in the browser. The
+ * form POSTs straight to a Cloudflare Worker (see /odoo-lead-worker) that
+ * holds the real Odoo credentials as encrypted secrets and creates the CRM
+ * lead server-side — those credentials never ship in this client bundle.
  */
 export async function submitContact(data: ContactInput) {
   const parsed = contactSchema.safeParse(data);
@@ -14,21 +12,17 @@ export async function submitContact(data: ContactInput) {
     return { ok: false as const, error: "invalid" as const };
   }
 
-  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
-  if (!accessKey) {
-    console.error("[contact] NEXT_PUBLIC_WEB3FORMS_KEY is not set — form cannot submit.");
+  const endpoint = process.env.NEXT_PUBLIC_ODOO_LEADS_ENDPOINT;
+  if (!endpoint) {
+    console.error("[contact] NEXT_PUBLIC_ODOO_LEADS_ENDPOINT is not set — form cannot submit.");
     return { ok: false as const, error: "config" as const };
   }
 
   try {
-    const res = await fetch(WEB3FORMS_ENDPOINT, {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        access_key: accessKey,
-        subject: `New enquiry from ${parsed.data.name} — Mizan website`,
-        ...parsed.data,
-      }),
+      body: JSON.stringify(parsed.data),
     });
     const json = await res.json();
     return json.success
