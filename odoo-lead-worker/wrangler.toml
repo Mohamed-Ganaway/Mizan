@@ -7,5 +7,5 @@ compatibility_date = "2024-11-01"
 [vars]
 ODOO_URL = "https://mizan-ct.odoo.com"
 ODOO_DB = "mizan-ct"
-ODOO_USERNAME = "m.ganaway@mizan.com.ly"
+ODOO_USERNAME = "info@mizan.com.ly"
 ALLOWED_ORIGINS = "https://mizan.com.ly,https://www.mizan.com.ly,https://mohamed-ganaway.github.io"
